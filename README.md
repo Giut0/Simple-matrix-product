@@ -1,2 +1,3 @@
 # prod_mat
-Multiplication between two matrix
+# hello
+Multiplication between two input matrix
