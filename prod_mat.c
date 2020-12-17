@@ -11,7 +11,7 @@
 #include <stdlib.h>
 
 int main(void) {
-	setbuf(stdout, NULL);
+	
 	int row1, column1, row2, column2;
 
 	//input number of rows and columns of the first matrix
