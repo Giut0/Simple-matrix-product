@@ -1,8 +1,8 @@
 /*
  ============================================================================
- Name        : prod_mat.c
+ Name        : prod_matrix.c
  Author      : Vito Proscia
- Version     : 1.0
+ Version     : 2.0
  Description : Product between two matrices
  ============================================================================
  */
@@ -10,95 +10,141 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define MAX_ROW 100
+#define MAX_COLUMN 100
+
+short int isOperationValid(unsigned short int rowFirst, unsigned short int columnSecond);
+void loadMatrix(int firstMatrix[MAX_ROW][MAX_COLUMN], int secondMatrix[MAX_ROW][MAX_COLUMN], unsigned short int rowFirst, unsigned short int columnFirst, unsigned short int rowSecond, unsigned short int columnSecond);
+void printMatrix(int firstMatrix[MAX_ROW][MAX_COLUMN], int secondMatrix[MAX_ROW][MAX_COLUMN], unsigned short int rowFirst, unsigned short int columnFirst, unsigned short int rowSecond, unsigned short int columnSecond);
+void multiplicationMatrices(int firstMatrix[MAX_ROW][MAX_COLUMN], int secondMatrix[MAX_ROW][MAX_COLUMN], int result[MAX_ROW][MAX_COLUMN], unsigned short int columnFirst, unsigned short int rowSecond);
+
 int main(void) {
 	
-	int row1, column1, row2, column2;
+	unsigned short int rowFirstMatrix, columnFirstMatrix, rowSecondMatrix, columnSecondMatrix;
+	int firstMatrix[MAX_ROW][MAX_COLUMN];
+	int secondMatrix[MAX_ROW][MAX_COLUMN];
+	int result[MAX_ROW][MAX_COLUMN];
 
-	//input number of rows and columns of the first matrix
-	puts("************************First matrix************************");
-	puts("Enter the number of rows of the first matrix: ");
-	scanf("%d", &row1);
-	puts("Enter the number of columns of the first matrix: ");
-	scanf("%d", &column1);
 
-	//input number of rows and columns of the second matrix
-	puts("************************Second matrix************************");
-	puts("Enter the number of rows of the second matrix: ");
-	scanf("%d", &row2);
-	puts("Enter the number of columns of the second matrix: ");
-	scanf("%d", &column2);
+    do{
+        //input number of rows and columns of the first matrix
+        printf("\n************************ First matrix ************************ \n \n");
+        printf("Enter the number of rows of the first matrix: ");
+        scanf("%hu", &rowFirstMatrix);
+        printf("Enter the number of columns of the first matrix: ");
+        scanf("%hu", &columnFirstMatrix);
 
-	int a[row1][column1];
-	int b[row2][column2];
-	int ris[row1][column2];
-	int i, j, k;
+        //input number of rows and columns of the second matrix
+        printf("\n************************Second matrix************************ \n \n");
+        printf("Enter the number of rows of the second matrix: ");
+        scanf("%hu", &rowSecondMatrix);
+        printf("Enter the number of columns of the second matrix: ");
+        scanf("%hu", &columnSecondMatrix);
 
-        //operation validity check
-	if(row1 == column2){
+    }while (isOperationValid(rowFirstMatrix, columnSecondMatrix) == 0);   //operation validity check
+    
+    loadMatrix(firstMatrix, secondMatrix, rowFirstMatrix, columnFirstMatrix, rowSecondMatrix, columnSecondMatrix);
+    printMatrix(firstMatrix, secondMatrix, rowFirstMatrix, columnFirstMatrix, rowSecondMatrix, columnSecondMatrix);
+    multiplicationMatrices(firstMatrix, secondMatrix, result, columnFirstMatrix, rowSecondMatrix);
+
+	return 0;
+}
+
+short int isOperationValid(unsigned short int rowFirst, unsigned short int columnSecond){
+
+    unsigned short int flagValidation = 0;
+
+    if(rowFirst == columnSecond){
+
+        flagValidation = 1; 
+
+    }
+
+    return flagValidation;
+}
+
+void loadMatrix(int firstMatrix[MAX_ROW][MAX_COLUMN], int secondMatrix[MAX_ROW][MAX_COLUMN], unsigned short int rowFirst, unsigned short int columnFirst, unsigned short int rowSecond, unsigned short int columnSecond){
+    
+    unsigned short int i, j;
+
 		//input first matrix
-		puts("************************First matrix************************");
-		for(i = 0; i < row1; i++){
-			for(j = 0; j < column1; j++){
-				printf("Enter a value in the %d row and %d column of the first matrix: \n", (i + 1), (j + 1));
-				scanf("%d", &a[i][j]);
+		printf("\n************************ First matrix ************************ \n \n");
+		for(i = 0; i < rowFirst; i++){
+
+			for(j = 0; j < columnFirst; j++){
+
+				printf("Enter a value in the %da row and %da column of the first matrix: ", (i + 1), (j + 1));
+				scanf("%d", &firstMatrix[i][j]);
+
 			}
 		}
+
         //input second matrix
-		puts("************************Second matrix************************");
-		for(i = 0; i < row2; i++){
-			for(j = 0; j < column2; j++){
+		printf("\n************************ Second matrix ************************ \n \n");
+		for(i = 0; i < rowSecond; i++){
 
-				printf("Enter a value in the %d row and %d column of the second matrix: \n", (i + 1), (j + 1));
-				scanf("%d", &b[i][j]);
+			for(j = 0; j < columnSecond; j++){
+
+				printf("Enter a value in the %da row and %da column of the second matrix: ", (i + 1), (j + 1));
+				scanf("%d", &secondMatrix[i][j]);
+
 			}
 		}
+
+}
+
+void printMatrix(int firstMatrix[MAX_ROW][MAX_COLUMN], int secondMatrix[MAX_ROW][MAX_COLUMN], unsigned short int rowFirst, unsigned short int columnFirst, unsigned short int rowSecond, unsigned short int columnSecond){
+  
+   unsigned short int i, j;
+
 		//output first matrix
-		puts("---1a Matrix---");
-		for(i = 0; i < row1; i++){
-			for(j = 0; j < column1; j++){
+		printf("\n----- 1a Matrix ----- \n \n");
+		for(i = 0; i < rowFirst; i++){
 
-				printf("%d \t", a[i][j]);
+			for(j = 0; j < columnFirst; j++){
+
+				printf(" %d \t", firstMatrix[i][j]);
+
 			}
-			printf("\n");
+			printf("\n \n");
 		}
+
 		//output second matrix
-		puts("---2a Matrix---");
-		for(i = 0; i < row2; i++){
-			for(j = 0; j < column2; j++){
+		printf("\n----- 2a Matrix ----- \n \n");
+		for(i = 0; i < rowSecond; i++){
 
-				printf("%d \t", b[i][j]);
+			for(j = 0; j < columnSecond; j++){
+
+				printf(" %d \t", secondMatrix[i][j]);
+
 			}
-			printf("\n");
+			printf("\n \n");
 		}
+
+}
+
+void multiplicationMatrices(int firstMatrix[MAX_ROW][MAX_COLUMN], int secondMatrix[MAX_ROW][MAX_COLUMN], int result[MAX_ROW][MAX_COLUMN], unsigned short int columnFirst, unsigned short int rowSecond){
+   
+   unsigned short int i, j, k;
 
 		// multiplication
-		for(i = 0; i < column1; i++){
-			for(j = 0; j < row2; j++){
+        printf("\n************************ Result of multiplication ************************ \n \n");
+		for(i = 0; i < columnFirst; i++){
+
+			for(j = 0; j < rowSecond; j++){
 				
-				ris[i][j] = 0;
-				for(k = 0; k < column1; k++){
+				result[i][j] = 0;
+
+				for(k = 0; k < columnFirst; k++){
 					
-					ris[i][j] += a[i][k] * b[k][j];
+					result[i][j] += firstMatrix[i][k] * secondMatrix[k][j];
+
 				}
 
+				printf(" %d \t", result[i][j]);
+
 			}
+            printf("\n \n");
 		}
 
-		//output multiplication
-		puts("************************Result of multiplication************************");
-		for(i = 0; i < column1; i++){
-			for(j = 0; j < row2; j++){
-
-				printf("%d \t", ris[i][j]);
-			}
-			printf("\n");
-		}
-
-	}else{
-
-		puts("Invalid operation :( ");
-	}
-
-	system("pause");
-	return 0;
 }
