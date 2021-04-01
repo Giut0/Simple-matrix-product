@@ -35,7 +35,7 @@ int main(void) {
         scanf("%hu", &columnFirstMatrix);
 
         //input number of rows and columns of the second matrix
-        printf("\n************************Second matrix************************ \n \n");
+        printf("\n************************ Second matrix ************************ \n \n");
         printf("Enter the number of rows of the second matrix: ");
         scanf("%hu", &rowSecondMatrix);
         printf("Enter the number of columns of the second matrix: ");
